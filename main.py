@@ -18,4 +18,4 @@ def addScript ():
         print("wrong")
         passed = False
     return(passed)
-print(addScript())
+#print(addScript())#DEBUG
