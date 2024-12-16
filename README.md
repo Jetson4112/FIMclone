@@ -1,2 +1,2 @@
 # FIMclone
-Creating an app with similar purpose to FIM
+Creating an app with similar purpose to FIM 😊
