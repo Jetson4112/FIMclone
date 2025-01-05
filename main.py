@@ -3,7 +3,9 @@ import random
 import threading
 debugMode = False #set to true to enable flow control print statements
 passed = threading.Event()
+failed = threading.Event()
 timerEnd = threading.Event()
+timerLength = 5
 
 def addScript ():
     if debugMode:
@@ -24,12 +26,14 @@ def addScript ():
     if ans == int(inAns):
         print("correct")
         passed.set()
+        failed.clear()
     else:
         print("wrong")
         passed.clear()
+        failed.set()
     return(passed)
 
-def timer( start: int, endVal: int, step :int, timerMessage : str, endMessage : str) :
+def timer_countDown_(endVal: int, start: int = 0 , step :int = -1, timerMessage : str = "timer running...", endMessage : str = "timer ended") :
     print("\n")
     print("\n")
     try:
@@ -48,6 +52,13 @@ def timer( start: int, endVal: int, step :int, timerMessage : str, endMessage : 
                     pass
                 raise SystemExit
                 #exit here
+            elif (failed.is_set()):
+                if debugMode:
+                    print("\ntriggered exit in timer\n")
+                    pass 
+                else:
+                    pass
+                raise SystemExit
             else:
                 if debugMode:
                     print("\nchecking passed........................")
@@ -65,6 +76,7 @@ def timer( start: int, endVal: int, step :int, timerMessage : str, endMessage : 
         if (not passed.is_set()):
             print(" " * (len(timerMessage) + 5))
             print(endMessage, "\n")
+            return
     except SystemExit:
         if debugMode:
             print("timer ended")
@@ -72,12 +84,15 @@ def timer( start: int, endVal: int, step :int, timerMessage : str, endMessage : 
         else:
             pass
         return
+
+
+
 def inDebug(): 
     i = input("debug mode")
     if i != "":
         exit()
 
-threadTimer = threading.Thread(target = timer, args=(5, 0, -1, "Clock is ticking!!!", "Time is up!!"))
+threadTimer = threading.Thread(target = timer_countDown_, args=(0, timerLength)) #"Clock is ticking!!!", "Time is up!!"
 threadScript = threading.Thread(target=addScript)
 threadInDebug = threading.Thread(target = inDebug)
 threadScript.start()
