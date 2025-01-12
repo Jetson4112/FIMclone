@@ -17,23 +17,25 @@ def addScript ():
         pass
 
     ans = one + two
-    inAns = input("What is " + str(one) + " + " + str(two) + " + ?")
+    inAns = input("What is " + str(one) + " + " + str(two) + " ?".format())
     if debugMode:
         print(inAns)
         pass 
     else:
         pass
-    if ans == int(inAns):
+    if str(ans) == inAns:
         print("correct")
         passed.set()
         failed.clear()
+    elif inAns == "":
+        pass
     else:
         print("wrong")
         passed.clear()
         failed.set()
     return(passed)
 
-def timer_countDown_(endVal: int, start: int = 0 , step :int = -1, timerMessage : str = "timer running...", endMessage : str = "timer ended") :
+def timer_countDown_(endVal: int, start: int = 0 , step :int = -1, timerMessage : str = "Timer running...", endMessage : str = "Timer ended. Press ENTER to continue:") :
     print("\n")
     print("\n")
     try:
@@ -71,19 +73,27 @@ def timer_countDown_(endVal: int, start: int = 0 , step :int = -1, timerMessage 
                 pass 
             else:
                 pass
-            print(timerMessage, str(i), end = "\r")
+            #print(timerMessage, str(i), end = "\r")
+            print(f"{timerMessage:>100} [{str(i)}]", end="\r")
+
             time.sleep(abs(step))
-        if (not passed.is_set()):
+        if ((not passed.is_set()) and (not failed.is_set())):
             print(" " * (len(timerMessage) + 5))
+            if debugMode:
+                print("triggering endMessage")
+                pass 
+            else:
+                pass
             print(endMessage, "\n")
-            return
+            raise SystemExit
+            
     except SystemExit:
         if debugMode:
-            print("timer ended")
+            print("timer passed")
             pass 
         else:
             pass
-        return
+        return   
 
 
 
