@@ -44,15 +44,11 @@ def add():
         failed.set()
     return(passed)
 
-<<<<<<< Updated upstream
-def timer_countDown_(endVal: int, start: int = 0 , step :int = -1, timerMessage : str = "timer running...", endMessage : str = "timer ended") :
-=======
 def timer(endVal: int, 
                      start: int = 0 ,
                      step :int = -1, 
                      timerMessage : str = "Timer running...",
                      endMessage : str = "Timer ended. Press ENTER to continue:") :
->>>>>>> Stashed changes
     print("\n")
     print("\n")
     try:
@@ -102,9 +98,6 @@ def timer(endVal: int,
             pass 
         else:
             pass
-<<<<<<< Updated upstream
-        return
-=======
         return   
     
 def intro():
@@ -115,7 +108,6 @@ def intro():
         2.Subtraction
         3.Multiplication""")
     time.sleep(1)
->>>>>>> Stashed changes
 
 intro()
 while True:
@@ -142,13 +134,8 @@ while True:
 threadTimer = threading.Thread(target = timer, args=(0, timerLength , -1,"Clock is ticking!!!", "Time is up!!"))
 threadScript = threading.Thread(target=add())
 threadScript.start()
-<<<<<<< Updated upstream
-#threadInDebug.start()
-threadTimer.start()
-=======
 threadTimer.start()
 threadScript.join()         #join threads to ensure everything has executed successfully
 threadTimer.join()          #<same here>
 clear()
 print("\nthanks for playing!!")
->>>>>>> Stashed changes
