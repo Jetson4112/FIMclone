@@ -28,18 +28,18 @@ def add():
         pass
 
     ans = one + two
-    inAns = input("What is " + str(one) + " + " + str(two) + " + ?")
+    inAns = input("What is " + str(one) + " + " + str(two) + " ?")
     if debugMode:
         print(inAns)
         pass 
     else:
         pass
     if ans == int(inAns):
-        print("correct")
+        print("correct!")
         passed.set()
         failed.clear()
     else:
-        print("wrong")
+        print("...wrong")
         passed.clear()
         failed.set()
     return(passed)
@@ -86,7 +86,9 @@ def timer(endVal: int,
                 pass 
             else:
                 pass
-            print(timerMessage, str(i), end = "\r")
+            #print(timerMessage, str(i), end = "\r") #deprecated
+            print(f"{timerMessage:>100} [{str(i)}]", end="\r") #better formatted
+
             time.sleep(abs(step))
         if (not passed.is_set()):
             print(" " * (len(timerMessage) + 5))
@@ -99,7 +101,8 @@ def timer(endVal: int,
         else:
             pass
         return   
-    
+threadTimer = threading.Thread(target = timer, args=(0, timerLength , -1,"Clock is ticking!!!", "Time is up!!"))
+threadScript = threading.Thread(target=add)    
 def intro():
     clear()
     print("""Welcome to Arithmetics Range. this app is still a WIP. Report bugs on the GitHub page.
@@ -110,32 +113,30 @@ def intro():
     time.sleep(1)
 
 intro()
+
 while True:
     inVal = input("\nEnter your response-->")
     if (input(f"you entered \"{inVal}\"; type \'y\' once you're ready, or press[ENTER] to reset:").lower()) == "y":
         match inVal:
             case "1":
-                add()
+                threadScript.start()
+                threadTimer.start()
+                threadScript.join()         #join threads to ensure everything has executed successfully
+                threadTimer.join()          #<same here>
                 break
             case "2":
                 #sub()
                 print("subtaction range is coming soon")
-                break
+                continue
             case "3:":
                 print("multiplication range is coming soon")
-                
+                continue
             case __:
                 print("invalid input")
                 continue
     else:
         intro()
         pass
-
-threadTimer = threading.Thread(target = timer, args=(0, timerLength , -1,"Clock is ticking!!!", "Time is up!!"))
-threadScript = threading.Thread(target=add())
-threadScript.start()
-threadTimer.start()
-threadScript.join()         #join threads to ensure everything has executed successfully
-threadTimer.join()          #<same here>
+time.sleep(2)
 clear()
 print("\nthanks for playing!!")
