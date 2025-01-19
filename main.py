@@ -28,27 +28,33 @@ def add():
         pass
 
     ans = one + two
+
     inAns = input("What is " + str(one) + " + " + str(two) + " ?")
     if debugMode:
         print(inAns)
         pass 
     else:
         pass
+
     if ans == int(inAns):
         print("correct!")
         passed.set()
         failed.clear()
+    elif inAns == "":
+        pass
     else:
         print("...wrong")
         passed.clear()
         failed.set()
     return(passed)
 
+
 def timer(endVal: int, 
                      start: int = 0 ,
                      step :int = -1, 
                      timerMessage : str = "Timer running...",
                      endMessage : str = "Timer ended. Press ENTER to continue:") :
+
     print("\n")
     print("\n")
     try:
@@ -86,21 +92,28 @@ def timer(endVal: int,
                 pass 
             else:
                 pass
+
             #print(timerMessage, str(i), end = "\r") #deprecated
             print(f"{timerMessage:>100} [{str(i)}]", end="\r") #better formatted
-
             time.sleep(abs(step))
-        if (not passed.is_set()):
+        if ((not passed.is_set()) and (not failed.is_set())):
             print(" " * (len(timerMessage) + 5))
+            if debugMode:
+                print("triggering endMessage")
+                pass 
+            else:
+                pass
             print(endMessage, "\n")
-            return
+            raise SystemExit
+            
     except SystemExit:
         if debugMode:
-            print("timer ended")
+            print("timer passed")
             pass 
         else:
             pass
         return   
+
 threadTimer = threading.Thread(target = timer, args=(0, timerLength , -1,"Clock is ticking!!!", "Time is up!!"))
 threadScript = threading.Thread(target=add)    
 def intro():
@@ -112,8 +125,8 @@ def intro():
         3.Multiplication""")
     time.sleep(1)
 
-intro()
 
+intro()
 while True:
     inVal = input("\nEnter your response-->")
     if (input(f"you entered \"{inVal}\"; type \'y\' once you're ready, or press[ENTER] to reset:").lower()) == "y":
@@ -140,3 +153,4 @@ while True:
 time.sleep(2)
 clear()
 print("\nthanks for playing!!")
+
