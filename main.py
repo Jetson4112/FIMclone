@@ -1,13 +1,24 @@
 import time
 import random
 import threading
+import os
 debugMode = False #set to true to enable flow control print statements
 passed = threading.Event()
 failed = threading.Event()
 timerEnd = threading.Event()
 timerLength = 5
+userMode = -1
 
-def addScript ():
+def clear():
+    
+        if os.name == 'nt':
+            _ = os.system('cls')# For Windows
+        else:
+            _ = os.system('clear')# For macOS and Linux
+
+  
+
+def add():
     if debugMode:
         one, two = 1, 2 
         pass 
@@ -17,25 +28,33 @@ def addScript ():
         pass
 
     ans = one + two
-    inAns = input("What is " + str(one) + " + " + str(two) + " ?".format())
+
+    inAns = input("What is " + str(one) + " + " + str(two) + " ?")
     if debugMode:
         print(inAns)
         pass 
     else:
         pass
-    if str(ans) == inAns:
-        print("correct")
+
+    if ans == int(inAns):
+        print("correct!")
         passed.set()
         failed.clear()
     elif inAns == "":
         pass
     else:
-        print("wrong")
+        print("...wrong")
         passed.clear()
         failed.set()
     return(passed)
 
-def timer_countDown_(endVal: int, start: int = 0 , step :int = -1, timerMessage : str = "Timer running...", endMessage : str = "Timer ended. Press ENTER to continue:") :
+
+def timer(endVal: int, 
+                     start: int = 0 ,
+                     step :int = -1, 
+                     timerMessage : str = "Timer running...",
+                     endMessage : str = "Timer ended. Press ENTER to continue:") :
+
     print("\n")
     print("\n")
     try:
@@ -73,9 +92,9 @@ def timer_countDown_(endVal: int, start: int = 0 , step :int = -1, timerMessage 
                 pass 
             else:
                 pass
-            #print(timerMessage, str(i), end = "\r")
-            print(f"{timerMessage:>100} [{str(i)}]", end="\r")
 
+            #print(timerMessage, str(i), end = "\r") #deprecated
+            print(f"{timerMessage:>100} [{str(i)}]", end="\r") #better formatted
             time.sleep(abs(step))
         if ((not passed.is_set()) and (not failed.is_set())):
             print(" " * (len(timerMessage) + 5))
@@ -95,16 +114,43 @@ def timer_countDown_(endVal: int, start: int = 0 , step :int = -1, timerMessage 
             pass
         return   
 
+threadTimer = threading.Thread(target = timer, args=(0, timerLength , -1,"Clock is ticking!!!", "Time is up!!"))
+threadScript = threading.Thread(target=add)    
+def intro():
+    clear()
+    print("""Welcome to Arithmetics Range. this app is still a WIP. Report bugs on the GitHub page.
+    Enter the Numbers to select yor input;
+        1.Addition
+        2.Subtraction
+        3.Multiplication""")
+    time.sleep(1)
 
 
-def inDebug(): 
-    i = input("debug mode")
-    if i != "":
-        exit()
+intro()
+while True:
+    inVal = input("\nEnter your response-->")
+    if (input(f"you entered \"{inVal}\"; type \'y\' once you're ready, or press[ENTER] to reset:").lower()) == "y":
+        match inVal:
+            case "1":
+                threadScript.start()
+                threadTimer.start()
+                threadScript.join()         #join threads to ensure everything has executed successfully
+                threadTimer.join()          #<same here>
+                break
+            case "2":
+                #sub()
+                print("subtaction range is coming soon")
+                continue
+            case "3:":
+                print("multiplication range is coming soon")
+                continue
+            case __:
+                print("invalid input")
+                continue
+    else:
+        intro()
+        pass
+time.sleep(2)
+clear()
+print("\nthanks for playing!!")
 
-threadTimer = threading.Thread(target = timer_countDown_, args=(0, timerLength)) #"Clock is ticking!!!", "Time is up!!"
-threadScript = threading.Thread(target=addScript)
-threadInDebug = threading.Thread(target = inDebug)
-threadScript.start()
-#threadInDebug.start()
-threadTimer.start()
