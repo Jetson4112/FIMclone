@@ -2,6 +2,7 @@ import time
 import random
 import threading
 import os
+import webbrowser
 debugMode = False #set to true to enable flow control print statements
 passed = threading.Event()
 failed = threading.Event()
@@ -19,7 +20,7 @@ def clear():
 
   
 
-def add():
+def numGen():
     while True:    
         if passed.is_set() or failed.is_set():
             break
@@ -30,10 +31,27 @@ def add():
             one = random.randint(0,10)
             two = random.randint(0,10)
             pass
+        print("reached match case")
+        match inVal:
+            case "1":
+                ans = one + two #addition
+                displayMessage = "What is " + str(one) + " + " + str(two) + " ?"
+                pass
+            case "2":
+                ans = one - two #subtraction
+                displayMessage = "What is " + str(one) + " - " + str(two) + " ?"
+                pass
+            case "3":
+                ans = one * two #multiplication
+                displayMessage = "What is " + str(one) + " × " + str(two) + " ?"
+                pass
+            case __:
+                raise ValueError("game mode not found(is it in the match case at game function?)")
+            
 
-        ans = one + two
-
-        inAns = input("What is " + str(one) + " + " + str(two) + " ?")
+        #inAns = input(displayMessage) #deprecated
+        print(displayMessage, "\n")
+        inAns = input("your answer:     \n")
         if debugMode:
             print(inAns)
             pass 
@@ -44,6 +62,7 @@ def add():
             print("correct!")
             passed.set()
             failed.clear()
+            clear()
         elif inAns == "":
             pass
         else:
@@ -71,7 +90,7 @@ def timer(endVal: int,
                     pass 
                 else:
                     pass
-                if (passed.is_set()):
+                if (passed.is_set() or failed.is_set()):
                     ##uncomment for debug
                     if debugMode:
                         print("\ntriggered exit in timer\n")
@@ -80,13 +99,6 @@ def timer(endVal: int,
                         pass
                     raise SystemExit
                     #exit here
-                elif (failed.is_set()):
-                    if debugMode:
-                        print("\ntriggered exit in timer\n")
-                        pass 
-                    else:
-                        pass
-                    raise SystemExit
                 else:
                     if debugMode:
                         print("\nchecking passed........................")
@@ -99,8 +111,6 @@ def timer(endVal: int,
                     pass 
                 else:
                     pass
-
-                #print(timerMessage, str(i), end = "\r") #deprecated
                 print(f"{timerMessage:>100} [{str(i)}]", end="\r") #better formatted
                 time.sleep(abs(step))
             if ((not passed.is_set()) and (not failed.is_set())):
@@ -142,15 +152,16 @@ def intro():
 def endScreen():
     time.sleep(1)
     clear()
+    print(f" your score was {score}")
     print("\nthanks for playing!!")
     time.sleep(1)
 
-def game_add():
+def game():
     passed.clear()
     failed.clear()
     
     threadTimer = threading.Thread(target = timer, args=(0, timerLength , -1,"Clock is ticking!!!"),daemon=True)
-    threadAdd = threading.Thread(target=add, daemon=True) 
+    threadAdd = threading.Thread(target=numGen, daemon=True) 
 
     threadAdd.start()
     threadTimer.start()
@@ -160,7 +171,8 @@ def game_add():
             endScreen()
             break
         elif passed.is_set():
-            #score += 1 WIP dont look ;)
+            global score
+            score += 1 #WIP dont look ;)
             break
         threadAdd.join()            #join threads to ensure everything has executed successfully
         threadTimer.join()          #<same here> 
@@ -175,27 +187,27 @@ while True:
     
     #menu selection settings
     #        V    
-    match inVal:
-        case "1":
-            game_add()
-        case "2":
-            #sub()
-            print("subtaction range is coming soon")
-            continue
-        case "3":
-            print("multiplication range is coming soon")
-            continue
-        case "quit":
-            endScreen()
-            break     #exit the program
-        case "reset":
-            intro()
-            pass
-        case __:
-            clear()
-            print("invalid input")
-            time.sleep(2)
-            inVal = "reset"
+    if inVal in ["1", "2", "3"]: #game modes(as set in game function)
+        game()
+        #additional menu options beyound this point
+    elif inVal == "quit":
+        endScreen()
+        break
+        
+    elif inVal == ("reset" or ""):
+        clear()
+        intro()
+        break
+    elif inVal == "secrets":
+        clear()
+        print("rickroll activated")
+        webbrowser.open_new("https://youtu.be/dQw4w9WgXcQ?si=qqKHUOkK7wGoDzOh")
+        break
+    else :
+        clear()
+        print("invalid input")
+        time.sleep(2)
+        intro()
 
 
 
