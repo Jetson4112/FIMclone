@@ -1,5 +1,8 @@
 import os, time
+
 import var
+
+from var import score
 
 
 def clear():
@@ -24,3 +27,14 @@ def intro():
     time.sleep(1)
     
     var.inVal = input("\nEnter your response-->")
+
+
+def endScreen():
+    time.sleep(1)
+    clear()
+    print(f" your score was {var.score}")
+    print("\nthanks for playing!!")
+    time.sleep(1)
+
+if __name__ == "__main__":
+    intro()
