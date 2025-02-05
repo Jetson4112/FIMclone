@@ -4,15 +4,11 @@ import random
 import threading
 import os
 import webbrowser
-import var
+import var, screens 
+#screens is not accessed here; kept for redundancy
 from var import passed, failed, debugMode, timerLength, inVal, score
+from screens import clear, intro
 
-def clear():
-    
-        if os.name == 'nt':
-            _ = os.system('cls')# For Windows
-        else:
-            _ = os.system('clear')# For macOS and Linux
 
   
 
@@ -129,21 +125,6 @@ def timer(endVal: int,
 #threadTimer = threading.Thread(target = timer, args=(0, timerLength , -1,"Clock is ticking!!!", "Time is up!!"),daemon=True)
 #threadAdd = threading.Thread(target=add, daemon=True) #unneded
   
-def intro():
-    clear()
-    print(
-    """Welcome to Arithmetics Range. this app is still a WIP. Report bugs on the GitHub page.
-    
-    Enter the Numbers to select your input;
-    the game will start as soon as you press enter with your choice
-        1. Addition
-        2. Subtraction
-        3. Multiplication
-    reset. reset the main menu
-     quit. quit this program""")
-    time.sleep(1)
-    
-    var.inVal = input("\nEnter your response-->")
 
 def endScreen():
     time.sleep(1)
