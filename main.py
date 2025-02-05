@@ -1,16 +1,12 @@
+global score, inVal
 import time
 import random
 import threading
 import os
 import webbrowser
-debugMode = False #set to true to enable flow control print statements
-passed = threading.Event()
-failed = threading.Event()
-timerEnd = threading.Event()
-timerLength = 5
-userMode = -1
-global score, inVal
-score = 0
+import var
+from var import passed, failed, debugMode, timerLength, inVal, score
+
 def clear():
     
         if os.name == 'nt':
@@ -32,7 +28,7 @@ def numGen():
             two = random.randint(0,10)
             pass
         print("reached match case")
-        match inVal:
+        match var.inVal:
             case "1":
                 ans = one + two #addition
                 displayMessage = "What is " + str(one) + " + " + str(two) + " ?"
@@ -146,8 +142,8 @@ def intro():
     reset. reset the main menu
      quit. quit this program""")
     time.sleep(1)
-    global inVal
-    inVal = input("\nEnter your response-->")
+    
+    var.inVal = input("\nEnter your response-->")
 
 def endScreen():
     time.sleep(1)
@@ -181,33 +177,35 @@ intro()
 
 while True:
     if failed.is_set():
-        break
-    #inVal = input("\nEnter your response-->")
-    #if (input(f"you entered \"{inVal}\"; type \'y\' once you're ready, or press[ENTER] to reset:").lower()) == "y": #a relic of the past, unnecessary for now
-    
+        break    
     #menu selection settings
     #        V    
-    if inVal in ["1", "2", "3"]: #game modes(as set in game function)
-        game()
+    match var.inVal:
+        case v if v in {"1" , "2" , "3"}: #game modes(as set in game function)
+            game()
         #additional menu options beyound this point
-    elif inVal == "quit":
-        endScreen()
-        break
+        case "quit":
+            endScreen()
+            break
         
-    elif inVal == ("reset" or ""):
-        clear()
-        intro()
-        break
-    elif inVal == "secrets":
-        clear()
-        print("rickroll activated")
-        webbrowser.open_new("https://youtu.be/dQw4w9WgXcQ?si=qqKHUOkK7wGoDzOh")
-        break
-    else :
-        clear()
-        print("invalid input")
-        time.sleep(2)
-        intro()
+        case ("reset", ""):
+            clear()
+            intro()
+            break
+        case "secrets":
+            clear()
+            print("rickroll activated")
+            webbrowser.open_new("https://shattereddisk.github.io/rickroll/rickroll.mp4")
+            break
+        
+        case "-1":
+            raise ValueError("Recieving default value; is the variable assigned?")
+        
+        case __ :
+            clear()
+            print("invalid input")
+            time.sleep(2)
+            intro()
 
 
 
