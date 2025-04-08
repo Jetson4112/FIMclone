@@ -17,15 +17,17 @@ while True:
     #menu selection settings
     #        V    
     match var.inVal:
-        case v if v in {"1" , "2" , "3"}: #game modes(as set in game function)
+        case value if value in {"1" , "2" , "3"}: #game modes(as set in game function)
             game()
-        #additional menu options beyound this point
+        #additional menu options beyond this point
         case "quit":
             endScreen()
             break
         
-        case ("reset", ""):
+        case "reset":
             clear()
+            print('resetting')
+            time.sleep(1)
             intro()
             break
         case "secrets":
@@ -38,7 +40,9 @@ while True:
             raise ValueError("Recieving default value; is the variable assigned?")
         
         case __ :
+            
             clear()
+            print(var.inVal)
             print("invalid input")
             time.sleep(2)
             intro()

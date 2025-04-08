@@ -2,6 +2,9 @@ import time
 
 import var
 
+#this code is a mess
+#id greatly appreciate cleaning it up a bit
+
 from var import passed, failed, debugMode
 
 
