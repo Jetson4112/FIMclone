@@ -7,7 +7,7 @@ import threading
 
 #use "from var import <var_name>", and call <var_name> to use constant values
 
-inVal = "-1"
+inVal = None
 debugMode = False #set to true to enable flow control print statements
 passed = threading.Event()
 failed = threading.Event()
