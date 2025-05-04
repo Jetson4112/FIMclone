@@ -5,7 +5,7 @@ import var
 #this code is a mess
 #id greatly appreciate cleaning it up a bit
 
-from var import passed, failed #debugMode #debugMode is no longer used
+from var import passed, failed
 
 from logConfig import logging
 
@@ -30,13 +30,13 @@ endMessage : str = "Timer ended. Press ENTER to continue:") :
                 
                 if (passed.is_set() or failed.is_set()):
                     log.debug("\ntriggered exit in timer\n")
-                    raise TimeoutError("you ran out of time")
+                    raise TimeoutError("you passed or failed")
                     #exit here
                 else:
                     log.debug("\nchecking passed........................")
                     pass    
                 
-                log.info("passed " + str(passed))
+                log.debug("passed " + str(passed))
                 
                 print(f"{timerMessage:>100} [{str(i)}]", end="\r") #better formatted
                 
@@ -51,7 +51,14 @@ endMessage : str = "Timer ended. Press ENTER to continue:") :
                 raise TimeoutError("you ran out of time")
                 
         except TimeoutError:
-            log.exception("timeout trigerred")
+            if passed.is_set():
+                log.info("passed is set")
+                log.debug(f"""passed {passed}\n failed {failed}""")
+            elif failed.is_set():
+                log.info("failed is set")
+                log.debug(f"""passed {passed}\n failed {failed}""")
+            else:
+                log.error("timeout trigerred")
             return   
         
 if __name__ == "__main__":
