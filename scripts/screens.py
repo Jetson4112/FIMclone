@@ -29,14 +29,14 @@ def intro():
      quit. quit this program""")
     time.sleep(1)
     log.debug("printed menu")
-    var.inVal = input("\nEnter your response-->")
-    log.info(f"inVal = {var.inVal}")
+    var.set("inVal", input("\nEnter your response-->"))
+    log.info(f"inVal = {var.get("inVal")}")
 
 
 def endScreen():
     time.sleep(1)
     clear()
-    print(f"your score was {var.score}")
+    print(f"your score was {var.get("score")}")
     print("\nthanks for playing!!")
     time.sleep(1)
     log.info("ended execution")

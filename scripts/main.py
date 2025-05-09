@@ -21,9 +21,9 @@ while True:
         break    
     #menu selection settings
     #        V    
-    match var.inVal:
+    match var.get("inVal"):
         case value if value in {"1" , "2" , "3"}: #game modes(as set in game function)
-            log.debug(f"triggering game(); inVal = {var.inVal}")
+            log.debug(f"triggering game(); inVal = {var.get("inVal")}")
             game()
         #additional menu options beyond this point
         
@@ -57,8 +57,8 @@ while True:
         case __ :
             log.debug("triggered fallback for menu; no such options configured")
             clear()
-            print(var.inVal)
-            print("invalid input")
+            print(var.get("inVal"))
+            print("\ninvalid input")
             time.sleep(2)
             intro()
 

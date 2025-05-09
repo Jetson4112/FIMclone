@@ -4,7 +4,7 @@ import var
 
 from var import passed, failed, devMode, timerLength, score
 from screens import clear, endScreen
-from timer import timer
+from timer import timer # type: ignore
 from logConfig import logging
 
 log = logging.getLogger("gameLogger")
@@ -16,7 +16,7 @@ def numGen():
         if passed.is_set() or failed.is_set():
             break
 
-        if devMode:
+        if var.get("devMode"):
             one, two = 1, 2 
             pass 
         else:
@@ -26,7 +26,7 @@ def numGen():
         
         log.info("reached match-case")
 
-        match var.inVal:
+        match var.get("inVal"):
             case "1":
                 ans = one + two #addition
                 displayMessage = "What is " + str(one) + " + " + str(two) + " ?"
@@ -43,7 +43,7 @@ def numGen():
                 try:
                     raise ValueError("game mode not found")
                 except:
-                    log.exception("value not found in match case(is it in the match case at game function in game.py?)")
+                    log.critical("value not found in match case(is it in the match case at game function in game.py?)")
             
 
         print(displayMessage, "\n")
@@ -55,7 +55,7 @@ def numGen():
             passed.set()
             failed.clear()
             clear()
-        elif inAns == "":
+        elif inAns == "" :
             pass
         else:
             print("...wrong")
@@ -79,7 +79,7 @@ def game():
             break
         elif passed.is_set():
             global score
-            var.score += 1 #WIP dont look ;)
+            var.set("score", var.get("score") + 1) #WIP dont look ;)
             break
         threadAdd.join()            #join threads to ensure everything has executed successfully
         threadTimer.join()

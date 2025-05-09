@@ -36,7 +36,7 @@ endMessage : str = "Timer ended. Press ENTER to continue:") :
                     log.debug("\nchecking passed........................")
                     pass    
                 
-                log.debug("passed " + str(passed))
+                log.debug(f"Timer tick: {i} | passed: {passed.is_set()} | failed: {failed.is_set()}")
                 
                 print(f"{timerMessage:>100} [{str(i)}]", end="\r") #better formatted
                 
