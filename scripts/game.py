@@ -2,9 +2,13 @@ import random, threading
 
 import var
 
-from var import passed, failed, debugMode, timerLength, score
+from var import passed, failed, devMode, timerLength, score
 from screens import clear, endScreen
-from timer import timer
+from timer import timer # type: ignore
+from logConfig import logging
+
+log = logging.getLogger("gameLogger")
+
 
 
 def numGen():
@@ -12,7 +16,7 @@ def numGen():
         if passed.is_set() or failed.is_set():
             break
 
-        if debugMode:
+        if var.get("devMode"):
             one, two = 1, 2 
             pass 
         else:
@@ -20,12 +24,9 @@ def numGen():
             two = random.randint(0,10)
             pass
         
-        if debugMode:
-            print("reached match case")
-        else:
-            pass
+        log.info("reached match-case")
 
-        match var.inVal:
+        match var.get("inVal"):
             case "1":
                 ans = one + two #addition
                 displayMessage = "What is " + str(one) + " + " + str(two) + " ?"
@@ -39,23 +40,22 @@ def numGen():
                 displayMessage = "What is " + str(one) + " × " + str(two) + " ?"
                 pass
             case __:
-                raise ValueError("game mode not found(is it in the match case at game function?)")
+                try:
+                    raise ValueError("game mode not found")
+                except:
+                    log.critical("value not found in match case(is it in the match case at game function in game.py?)")
             
 
         print(displayMessage, "\n")
         inAns = input("your answer:     \n")
-        if debugMode:
-            print(inAns)
-            pass 
-        else:
-            pass
+        log.debug(f"inAns {inAns}")
 
         if str(ans) == inAns:
             print("correct!")
             passed.set()
             failed.clear()
             clear()
-        elif inAns == "":
+        elif inAns == "" :
             pass
         else:
             print("...wrong")
@@ -79,7 +79,7 @@ def game():
             break
         elif passed.is_set():
             global score
-            var.score += 1 #WIP dont look ;)
+            var.set("score", var.get("score") + 1) #WIP dont look ;)
             break
         threadAdd.join()            #join threads to ensure everything has executed successfully
         threadTimer.join()
