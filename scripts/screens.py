@@ -4,8 +4,6 @@ from logConfig import logging
 import var
 
 #from var import score #deemed unneded
-
-#logging.config.fileConfig("logConfig.conf")
 log = logging.getLogger("screensLogger")
 def clear():
     log.debug("triggered clear()")

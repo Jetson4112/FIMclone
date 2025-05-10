@@ -17,27 +17,28 @@ def numGen():
             break
 
         if var.get("devMode"):
-            one, two = 1, 2 
+            numOne, numTwo = 1, 2 
             pass 
         else:
-            one = random.randint(0,10)
-            two = random.randint(0,10)
+            numOne = random.randint(0,10)
+            numTwo = random.randint(0,10)
             pass
         
         log.info("reached match-case")
+        global question
 
         match var.get("inVal"):
             case "1":
-                ans = one + two #addition
-                displayMessage = "What is " + str(one) + " + " + str(two) + " ?"
+                ans = numOne + numTwo #addition
+                question = "What is " + str(numOne) + " + " + str(numTwo) + " ?"
                 pass
             case "2":
-                ans = one - two #subtraction
-                displayMessage = "What is " + str(one) + " - " + str(two) + " ?"
+                ans = numOne - numTwo #subtraction
+                question = "What is " + str(numOne) + " - " + str(numTwo) + " ?"
                 pass
             case "3":
-                ans = one * two #multiplication
-                displayMessage = "What is " + str(one) + " × " + str(two) + " ?"
+                ans = numOne * numTwo #multiplication
+                question = "What is " + str(numOne) + " × " + str(numTwo) + " ?"
                 pass
             case __:
                 try:
@@ -46,7 +47,7 @@ def numGen():
                     log.critical("value not found in match case(is it in the match case at game function in game.py?)")
             
 
-        print(displayMessage, "\n")
+        print(question, "\n")
         inAns = input("your answer:     \n")
         log.debug(f"inAns {inAns}")
 
@@ -67,7 +68,7 @@ def game():
     passed.clear()
     failed.clear()
     
-    threadTimer = threading.Thread(target = timer, args=(0, timerLength , -1,"Clock is ticking!!!"),daemon=True)
+    threadTimer = threading.Thread(target = timer, args=(0, timerLength , -1),daemon=True)
     threadAdd = threading.Thread(target=numGen, daemon=True) 
 
     threadAdd.start()
