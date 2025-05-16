@@ -18,7 +18,8 @@ defaultValues = {
 "timerEnd" : threading.Event(),
 "score" : 0,
 "timerLength" : 5,
-"userMode" : -1 } 
+"userMode" : -1,
+"secs" : None } 
 
 def get(name : str):
     frame = inspect.stack()[1]  # Get the calling function's stack frame

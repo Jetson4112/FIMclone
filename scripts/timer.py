@@ -1,6 +1,6 @@
 import time
 
-import var
+import var, screens
 
 #this code is a mess
 #id greatly appreciate cleaning it up a bit
@@ -39,7 +39,9 @@ endMessage : str = "Timer ended. Press ENTER to continue:") :
                 
                 log.debug(f"Timer tick: {var.get("secs")} | passed: {passed.is_set()} | failed: {failed.is_set()}")
                 
-                print(f"{timerMessage:>100} [{str(i)}]", end="\r") #better formatted
+                #print(f"{timerMessage:>100} [{str(var.get("secs"))}]", end="\r") #better formatted
+                #line 42 not used as everything is replaced to function
+                screens.questionScreen()
                 
                 time.sleep(abs(step))
 
