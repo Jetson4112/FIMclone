@@ -25,8 +25,9 @@ endMessage : str = "Timer ended. Press ENTER to continue:") :
         print("\n")
         print("\n")
         try:
-            for i in range(start, endVal, step):
-                log.debug("\n=======================================================\n")
+            for secs in range(start, endVal, step):
+                var.set("secs", secs)
+                log.info("\n=======================================================\n")
                 
                 if (passed.is_set() or failed.is_set()):
                     log.debug("\ntriggered exit in timer\n")
