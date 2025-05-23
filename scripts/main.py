@@ -3,7 +3,7 @@ import time, webbrowser
 import var, screens       #screens is not accessed here; kept for redundancy
 from var import passed, failed, devMode, timerLength, inVal, score
 from screens import clear, intro, endScreen
-from game import game
+from gameLogic import game
 
 from logConfig import logging
 

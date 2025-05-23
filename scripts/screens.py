@@ -4,8 +4,6 @@ from logConfig import logging
 import var
 
 #from var import score #deemed unneded
-
-#logging.config.fileConfig("logConfig.conf")
 log = logging.getLogger("screensLogger")
 def clear():
     log.debug("triggered clear()")
@@ -40,6 +38,21 @@ def endScreen():
     print("\nthanks for playing!!")
     time.sleep(1)
     log.info("ended execution")
+
+def questionScreen():
+    from gameLogic import question#, end="\r"  from print statement
+    clear()
+    print(f"""
+        {question}
+
+
+       {"Clock is ticking!!!":>100} [{str(var.get("secs"))}]
+
+
+       Your answer:
+       \n""")
+    
+    
 
 if __name__ == "__main__":
     intro()

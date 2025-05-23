@@ -1,6 +1,6 @@
 import time
 
-import var
+import var, screens
 
 #this code is a mess
 #id greatly appreciate cleaning it up a bit
@@ -25,8 +25,9 @@ endMessage : str = "Timer ended. Press ENTER to continue:") :
         print("\n")
         print("\n")
         try:
-            for i in range(start, endVal, step):
-                log.debug("\n=======================================================\n")
+            for secs in range(start, endVal, step):
+                var.set("secs", secs)
+                log.info("\n=======================================================\n")
                 
                 if (passed.is_set() or failed.is_set()):
                     log.debug("\ntriggered exit in timer\n")
@@ -36,9 +37,11 @@ endMessage : str = "Timer ended. Press ENTER to continue:") :
                     log.debug("\nchecking passed........................")
                     pass    
                 
-                log.debug(f"Timer tick: {i} | passed: {passed.is_set()} | failed: {failed.is_set()}")
+                log.debug(f"Timer tick: {var.get("secs")} | passed: {passed.is_set()} | failed: {failed.is_set()}")
                 
-                print(f"{timerMessage:>100} [{str(i)}]", end="\r") #better formatted
+                #print(f"{timerMessage:>100} [{str(var.get("secs"))}]", end="\r") #better formatted
+                #line 42 not used as everything is replaced to function
+                screens.questionScreen()
                 
                 time.sleep(abs(step))
 
