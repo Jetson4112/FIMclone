@@ -1,7 +1,6 @@
 global score, inVal
 import time, webbrowser 
 import var, screens       #screens is not accessed here; kept for redundancy
-from var import passed, failed, devMode, timerLength, inVal, score
 from screens import clear, intro, endScreen
 from gameLogic import game
 
@@ -16,8 +15,8 @@ log = logging.getLogger("mainLogger")
 intro()
 
 while True:
-    if failed.is_set():
-        log.debug(f"triggered flag (failed) {failed}")
+    if var.get("failed").is_set():
+        log.debug(f"triggered flag (failed) {var.get("failed")}")
         break    
     #menu selection settings
     #        V    

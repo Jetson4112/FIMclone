@@ -1,4 +1,4 @@
-import logging, sys
+import logging, sys, inspect
 import logging.config
 
 handlerList = ["consoleHandler", "fileHandler"]
@@ -8,7 +8,7 @@ log_config = {
     "version": 1,
     "disable_existing_loggers": False,
     "loggers": {
-        "gameLogger": {
+        "gameLogicLogger": {
             "handlers": handlerList,
             "level": "NOTSET",
             "propagate": False,
@@ -75,6 +75,13 @@ log_config = {
     }
 
 }
-
-
 logging.config.dictConfig(log_config)
+
+def lineLocator():
+    frame = inspect.stack()[1]  # Get the calling function's stack frame
+    caller = f"{frame.filename}:{frame.lineno}"  # File and line number of the caller
+    return caller
+
+
+if __name__ == "__main__":
+    print("logConfig is main")
