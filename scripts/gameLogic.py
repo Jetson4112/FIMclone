@@ -53,32 +53,32 @@ def numGen():
 
         if str(ans) == inAns:
             print("correct!")
-            passed.set()
-            failed.clear()
+            var.get("passed").set()
+            var.get("failed").clear()
             clear()
         elif inAns == "" :
             pass
         else:
             print("...wrong")
-            passed.clear()
-            failed.set()
-        return(passed.is_set())
+            var.get("passed").clear()
+            var.get("failed").set()
+        return(var.get("passed").is_set())
     
 def game():
-    passed.clear()
-    failed.clear()
+    var.get("passed").clear()
+    var.get("failed").clear()
     
-    threadTimer = threading.Thread(target = timer, args=(0, timerLength , -1),daemon=True)
+    threadTimer = threading.Thread(target = timer, args=(0, var.get("timerLength") , -1),daemon=True)
     threadAdd = threading.Thread(target=numGen, daemon=True) 
 
     threadAdd.start()
     threadTimer.start()
     while True:
 
-        if failed.is_set():
+        if var.get("failed").is_set():
             endScreen()
             break
-        elif passed.is_set():
+        elif var.get("passed").is_set():
             global score
             var.set("score", var.get("score") + 1) #WIP dont look ;)
             break
